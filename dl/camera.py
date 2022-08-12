@@ -12,7 +12,7 @@ import tensorflow as tf
 
 
 class CameraDataloader:
-    def __init__(self, dev_mode: bool = True, models_path: str = "./nn/saved") -> None:
+    def __init__(self, dev_mode: bool = True, models_path: str = "./nn") -> None:
         self.TMPFILE = f"{tempfile.gettempdir()}/uno-player-card.jpeg"
         self.RASPI_IP = CameraDataloader.getenv("RASPI_IP", "192.168.178.39")
         self.DEV_MODE = dev_mode
