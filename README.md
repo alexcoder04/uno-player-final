@@ -35,3 +35,6 @@ dich über die verfügbaren Kommandozeilen-Argumente zu informieren.
 
 ---
 
+## Contributors
+
+[@nilswgnr](https://github.com/nilswgnr)
