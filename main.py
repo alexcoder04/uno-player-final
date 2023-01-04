@@ -4,7 +4,7 @@
 # Copyright (c) 2021-2022 nilswgnr <https://github.com/nilswgnr>
 #
 # NOTE: minimal python version: 3.10
-# 
+#
 # a script that can play the Uno card game
 #
 
@@ -168,4 +168,3 @@ def run(db="sql", dl="camera", dev_mode=False):
 
 if __name__ == "__main__":
     argh.dispatch_command(run)
-

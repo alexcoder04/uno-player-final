@@ -1,4 +1,3 @@
-
 """
 SQLite version of the player cards database
 """
@@ -11,10 +10,14 @@ class SqliteDatabase:
         self.DEV_MODE = dev_mode
         self._conn = sqlite3.connect(":memory:")
         self._cursor = self._conn.cursor()
-        self._cursor.execute("CREATE TABLE mycards (id integer PRIMARY KEY AUTOINCREMENT, color text, number text, special boolean)")
+        self._cursor.execute(
+            "CREATE TABLE mycards (id integer PRIMARY KEY AUTOINCREMENT, color text, number text, special boolean)"
+        )
 
     def add_card(self, color: str, number: str, special: bool) -> None:
-        self._cursor.execute(f"INSERT INTO mycards (color, number, special) VALUES ('{color}', '{number}', {special})")
+        self._cursor.execute(
+            f"INSERT INTO mycards (color, number, special) VALUES ('{color}', '{number}', {special})"
+        )
         self._conn.commit()
 
     def get_cards_by_color(self, color: str) -> list:
@@ -26,7 +29,9 @@ class SqliteDatabase:
         return self._cursor.fetchall()
 
     def get_cards_matching_no_special(self, color: str, number: str) -> list:
-        self._cursor.execute(f"SELECT * FROM mycards WHERE special = 0 AND (color = '{color}' OR number = '{number}')")
+        self._cursor.execute(
+            f"SELECT * FROM mycards WHERE special = 0 AND (color = '{color}' OR number = '{number}')"
+        )
         return self._cursor.fetchall()
 
     def get_cards_special(self) -> list:
@@ -39,4 +44,3 @@ class SqliteDatabase:
 
     def close(self) -> None:
         self._conn.close()
-

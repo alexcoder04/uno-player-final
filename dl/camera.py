@@ -1,4 +1,3 @@
-
 """
 Default Camera Interface for entering the cards and other data
 """
@@ -14,32 +13,32 @@ import tensorflow as tf
 class CameraDataloader:
     def __init__(self, dev_mode: bool = True, models_path: str = "./nn") -> None:
         self.TMPFILE = f"{tempfile.gettempdir()}/uno-player-card.jpeg"
-        self.RASPI_IP = CameraDataloader.getenv("RASPI_IP", "192.168.178.39")
+        self.RASPI_IP = CameraDataloader.getenv("RASPI_IP", "192.168.178.32")
         self.DEV_MODE = dev_mode
         self.COLOR_MAP = {
-                "r": "red",
-                "g": "green",
-                "b": "blue",
-                "y": "yellow",
-                "j": "joker"
-                }
+            "r": "red",
+            "g": "green",
+            "b": "blue",
+            "y": "yellow",
+            "j": "joker",
+        }
         self.NUMBER_MAP = {
-                "0": "0",
-                "1": "1",
-                "2": "2",
-                "3": "3",
-                "4": "4",
-                "5": "5",
-                "6": "6",
-                "7": "7",
-                "8": "8",
-                "9": "9",
-                "r": "reverse",
-                "n": "skip",
-                "+2": "draw 2",
-                "j": "wildcard",
-                "+4": "draw 4"
-                }
+            "0": "0",
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "6": "6",
+            "7": "7",
+            "8": "8",
+            "9": "9",
+            "r": "reverse",
+            "n": "skip",
+            "+2": "draw 2",
+            "j": "wildcard",
+            "+4": "draw 4",
+        }
         print("Loading models...")
 
         self.c_model = tf.keras.models.load_model(f"{models_path}/colors/model.h5")
@@ -66,7 +65,7 @@ class CameraDataloader:
             return input(prompt)
         except EOFError:
             return ""
-    
+
     def _download_image(self) -> None:
         while True:
             try:
@@ -79,7 +78,7 @@ class CameraDataloader:
             f.write(resp.content)
 
     def _load_image(self):
-        img = tf.keras.preprocessing.image.load_img(self.TMPFILE, target_size=(32,32))
+        img = tf.keras.preprocessing.image.load_img(self.TMPFILE, target_size=(32, 32))
         X = tf.keras.preprocessing.image.img_to_array(img)
         X = np.expand_dims(X, axis=0)
         return np.vstack([X])
@@ -93,7 +92,9 @@ class CameraDataloader:
             for i, v in enumerate(n_val[0]):
                 print(f"{self.n_classes[i]} = {v}")
         else:
-            print(f"Detected {self.COLOR_MAP[self.c_classes[c_res]]} {self.NUMBER_MAP[self.n_classes[n_res]]}")
+            print(
+                f"Detected {self.COLOR_MAP[self.c_classes[c_res]]} {self.NUMBER_MAP[self.n_classes[n_res]]}"
+            )
         inp = CameraDataloader._input("correct card (enter if ok): ")
         if inp == "":
             color = self.c_classes[c_res]
@@ -125,10 +126,26 @@ class CameraDataloader:
             if color not in ("r", "g", "b", "y", "j"):
                 print("Sorry, invalid color, use (r,g,b,y,j)")
                 continue
-            if color != "s" and number not in ("0","1","2","3","4","5","6","7","8","9","r","n","+2","j","+4"):
+            if color != "s" and number not in (
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9",
+                "r",
+                "n",
+                "+2",
+                "j",
+                "+4",
+            ):
                 print("Sorry, invalid number, use (0,1,2,3,4,5,6,7,8,9,r,n,+2,j,+4)")
                 continue
-            #if color == "j" and number not in ("j","+4"):
+            # if color == "j" and number not in ("j","+4"):
             #    print("Sorry, invalid number, use (j,+4)")
             #    continue
             if color == "j":
@@ -163,4 +180,3 @@ class CameraDataloader:
             return os.environ[key]
         except KeyError:
             return default
-
