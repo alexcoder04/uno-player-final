@@ -1,7 +1,9 @@
 
 # uno-player
 
-![Raspberry Pi filming an Uno card](./assets/raspberrypi-setup.jpg)
+![Raspberry Pi filming an Uno card](./assets/raspberrypi-setup-2.jpg)
+
+---
 
 ## *ENGLISH*
 
@@ -16,6 +18,10 @@ Report bugs [here](https://github.com/alexcoder04/uno-player-final/issues).
 Clone this repository and run `main.py`. Use the `--help` argument for information about available command-line options.
 
 **Note:** Python 3.10 or greater is required.
+
+## Mitwirkende
+
+ - [@nilswgnr](https://github.com/nilswgnr)
 
 ---
 
@@ -33,8 +39,7 @@ Klone dieses Repository und führe `main.py` aus. Benutze die `--help` Option, u
 
 **Achtung:** mindestens Python 3.10 erforderlich.
 
----
-
 ## Contributors
 
-[@nilswgnr](https://github.com/nilswgnr)
+ - [@nilswgnr](https://github.com/nilswgnr)
+
