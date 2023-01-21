@@ -19,7 +19,7 @@ Clone this repository and run `main.py`. Use the `--help` argument for informati
 
 **Note:** Python 3.10 or greater is required.
 
-## Mitwirkende
+## Contributors
 
  - [@nilswgnr](https://github.com/nilswgnr)
 
@@ -39,7 +39,7 @@ Klone dieses Repository und führe `main.py` aus. Benutze die `--help` Option, u
 
 **Achtung:** mindestens Python 3.10 erforderlich.
 
-## Contributors
+## Mitwirkende
 
  - [@nilswgnr](https://github.com/nilswgnr)
 
