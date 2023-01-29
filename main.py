@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# Copyright (c) 2021-2022 alexcoder04 <https://github.com/alexcoder04>
+# Copyright (c) 2021-2023 alexcoder04 <https://github.com/alexcoder04>
 # Copyright (c) 2021-2022 nilswgnr <https://github.com/nilswgnr>
 #
 # NOTE: minimal python version: 3.10
@@ -98,6 +98,8 @@ class UnoPlayer:
             else:
                 (curColor, curNumber) = self.skip_pull
                 self.skip_pull = None
+            if curColor == "j":
+                curColor = input("What color was wished: ")
             possible = self.db.get_cards_matching_no_special(curColor, curNumber)
             if len(possible) == 0:
                 res = self.db.get_cards_special()
@@ -114,15 +116,16 @@ class UnoPlayer:
                     continue
                 jokers = [i for i in res if i[2] != "+4"]
                 plus4s = [i for i in res if i[2] == "+4"]
+                best_color = self.best_color()
                 if len(jokers) == 0:
                     (card_id, color, number, special) = random.choice(plus4s)
                     if self.players_number == 2:
-                        self.skip_pull = (self.best_color(), number)
+                        self.skip_pull = (best_color, number)
                 else:
                     (card_id, color, number, special) = random.choice(jokers)
                 self.db.delete_card_by_id(card_id)
                 self.say(f"put {color} {number}")
-                self.say(f"I want {self.best_color()}!")
+                self.say(f"I want {best_color}!")
                 continue
             (card_id, color, number, special) = random.choice(possible)
             self.db.delete_card_by_id(card_id)
