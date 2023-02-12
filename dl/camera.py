@@ -9,36 +9,14 @@ import requests
 import tempfile
 import tensorflow as tf
 
+from .generic import get_players_number, _input, COLOR_MAP, NUMBER_MAP
+
 
 class CameraDataloader:
-    def __init__(self, dev_mode: bool = True, models_path: str = "./nn") -> None:
+    def __init__(self, dev_mode: bool = True, models_path: str = "./nn/tensorflow") -> None:
         self.TMPFILE = f"{tempfile.gettempdir()}/uno-player-card.jpeg"
         self.RASPI_IP = CameraDataloader.getenv("RASPI_IP", "192.168.178.32")
         self.DEV_MODE = dev_mode
-        self.COLOR_MAP = {
-            "r": "red",
-            "g": "green",
-            "b": "blue",
-            "y": "yellow",
-            "j": "joker",
-        }
-        self.NUMBER_MAP = {
-            "0": "0",
-            "1": "1",
-            "2": "2",
-            "3": "3",
-            "4": "4",
-            "5": "5",
-            "6": "6",
-            "7": "7",
-            "8": "8",
-            "9": "9",
-            "r": "reverse",
-            "n": "skip",
-            "+2": "draw 2",
-            "j": "wildcard",
-            "+4": "draw 4",
-        }
         print("Loading models...")
 
         self.c_model = tf.keras.models.load_model(f"{models_path}/colors/model.h5")
@@ -52,19 +30,7 @@ class CameraDataloader:
             self.n_classes = json.load(f)
 
     def get_players_number(self) -> int:
-        while True:
-            try:
-                return int(input("Players number: "))
-            except (ValueError, EOFError):
-                print("Sorry, this is not a number")
-                continue
-
-    @staticmethod
-    def _input(prompt):
-        try:
-            return input(prompt)
-        except EOFError:
-            return ""
+        return get_players_number()
 
     def _download_image(self) -> None:
         while True:
@@ -73,7 +39,7 @@ class CameraDataloader:
                 break
             except requests.exceptions.ConnectionError:
                 print("Connection to Raspberry Pi failed. Is the server running?")
-                CameraDataloader._input("Press <enter> to retry...")
+                _input("Press <enter> to retry...")
         with open(self.TMPFILE, "wb") as f:
             f.write(resp.content)
 
@@ -93,9 +59,9 @@ class CameraDataloader:
                 print(f"{self.n_classes[i]} = {v}")
         else:
             print(
-                f"Detected {self.COLOR_MAP[self.c_classes[c_res]]} {self.NUMBER_MAP[self.n_classes[n_res]]}"
+                f"Detected {COLOR_MAP[self.c_classes[c_res]]} {NUMBER_MAP[self.n_classes[n_res]]}"
             )
-        inp = CameraDataloader._input("correct card (enter if ok): ")
+        inp = _input("correct card (enter if ok): ")
         if inp == "":
             color = self.c_classes[c_res]
             number = self.n_classes[n_res]
@@ -106,15 +72,15 @@ class CameraDataloader:
                     break
                 except ValueError:
                     print("Sorry, cannot read your input")
-                    inp = CameraDataloader._input("correct card (enter if ok): ")
+                    inp = _input("correct card (enter if ok): ")
             color, number = color.strip(), number.strip()
-            print(f"corrected to {self.COLOR_MAP[color]} {self.NUMBER_MAP[number]}")
+            print(f"corrected to {COLOR_MAP[color]} {NUMBER_MAP[number]}")
 
         return color, number
 
     def read_card(self, prompt: str) -> tuple:
         print(prompt)
-        CameraDataloader._input("Hold the card in front of camera and press enter...")
+        _input("Hold the card in front of camera and press enter...")
         self._download_image()
         images = self._load_image()
         c_val = self.c_model.predict(images)
@@ -161,7 +127,7 @@ class CameraDataloader:
 
     def clear(self) -> None:
         if not self.DEV_MODE:
-            CameraDataloader._input("Press <enter> to clear the screen and continue")
+            _input("Press <enter> to clear the screen and continue")
             os.system("clear")
 
     @staticmethod
