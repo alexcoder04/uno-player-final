@@ -16,7 +16,7 @@ CARDS_BEGIN = 7
 
 class UnoPlayer:
     def __init__(self, database, dataloader, dev_mode: bool) -> None:
-        print("Creating Uno player...")
+        print("Creating Uno Player...")
         self.DEV_MODE = dev_mode
         self.NORMAL_COLORS = {"r", "g", "b", "y"}
         print("Creating Data Loader...")
@@ -28,7 +28,7 @@ class UnoPlayer:
         self.players_number = self.dl.get_players_number()
         print("Reading own cards...")
         for _ in range(CARDS_BEGIN):
-            color, number, special = self.dl.read_card("I got: ")
+            color, number, special = self.dl.read_card("Enter cards I got: ")
             self.db.add_card(color, number, special)
         self.dl.clear()
         print("I am now ready to play!")

@@ -8,7 +8,7 @@ from PIL import Image
 import numpy as np
 import os
 
-from .generic import _input, card_valid
+from .generic import _input, card_valid, get_players_number
 
 
 COLORS = ["b", "g", "j", "r", "y"]
@@ -19,7 +19,7 @@ class RCamDataloader:
     def __init__(self, dev_mode: bool = True, models_path: str = "./nn/tflite") -> None:
         self.TMPFILE = f"{tempfile.gettempdir()}/uno-player-card.jpg"
         self.DEV_MODE = dev_mode
-        print("Loading models...")
+        print("Loading Models...")
 
         self.ci = tflite.Interpreter(f"{models_path}/colors/model.tflite")
         self.ci.allocate_tensors()
@@ -57,6 +57,26 @@ class RCamDataloader:
         return max_score_index
         #print(classes[max_score_index])
 
+    def _correct(self, c: str, n: str) -> tuple:
+        print(
+            f"Detected {COLOR_MAP[c]} {NUMBER_MAP[n]}"
+        )
+        inp = _input("Correct card (enter if ok): ")
+        if inp == "":
+            color = self.c_classes[c_res]
+            number = self.n_classes[n_res]
+        else:
+            while True:
+                try:
+                    [color, number] = inp.split(",")
+                    break
+                except ValueError:
+                    print("Sorry, cannot read your input")
+                    inp = _input("Correct card (enter if ok): ")
+            color, number = color.strip(), number.strip()
+            print(f"Corrected to {COLOR_MAP[color]} {NUMBER_MAP[number]}")
+        return color, number
+
     def read_card(self, prompt: str) -> tuple:
         print(prompt)
         valid = False
@@ -71,4 +91,7 @@ class RCamDataloader:
             if card_valid(c, n):
                 break
             print("There was an error while trying to detect card, please try again.\n")
-        return (c, n)
+        if c == "j":
+            c = "s"
+        special = True if c == "s" else False
+        return c, n, special

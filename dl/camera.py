@@ -61,7 +61,7 @@ class CameraDataloader:
             print(
                 f"Detected {COLOR_MAP[self.c_classes[c_res]]} {NUMBER_MAP[self.n_classes[n_res]]}"
             )
-        inp = _input("correct card (enter if ok): ")
+        inp = _input("Correct card (enter if ok): ")
         if inp == "":
             color = self.c_classes[c_res]
             number = self.n_classes[n_res]
@@ -72,10 +72,9 @@ class CameraDataloader:
                     break
                 except ValueError:
                     print("Sorry, cannot read your input")
-                    inp = _input("correct card (enter if ok): ")
+                    inp = _input("Correct card (enter if ok): ")
             color, number = color.strip(), number.strip()
-            print(f"corrected to {COLOR_MAP[color]} {NUMBER_MAP[number]}")
-
+            print(f"Corrected to {COLOR_MAP[color]} {NUMBER_MAP[number]}")
         return color, number
 
     def read_card(self, prompt: str) -> tuple:

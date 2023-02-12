@@ -6,6 +6,7 @@ from .generic import COLOR_MAP, NUMBER_MAP
 try:
     from .camera import CameraDataloader
 except ModuleNotFoundError:
+    print("WARNING:")
     print("Failed to import Tensorflow-based neural network.")
     print("If you are running on the Raspberry Pi, you can ignore this message, as you are supposed to use TFLite.")
     print("Otherwise make sure that Tensorflow is installed correctly.\n")
