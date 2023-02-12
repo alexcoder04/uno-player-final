@@ -8,7 +8,7 @@ from PIL import Image
 import numpy as np
 import os
 
-from .generic import _input, card_valid, get_players_number
+from .generic import _input, card_valid, get_players_number, COLOR_MAP, NUMBER_MAP
 
 
 COLORS = ["b", "g", "j", "r", "y"]
@@ -63,18 +63,16 @@ class RCamDataloader:
         )
         inp = _input("Correct card (enter if ok): ")
         if inp == "":
-            color = self.c_classes[c_res]
-            number = self.n_classes[n_res]
-        else:
-            while True:
-                try:
-                    [color, number] = inp.split(",")
-                    break
-                except ValueError:
-                    print("Sorry, cannot read your input")
-                    inp = _input("Correct card (enter if ok): ")
-            color, number = color.strip(), number.strip()
-            print(f"Corrected to {COLOR_MAP[color]} {NUMBER_MAP[number]}")
+            return c, n
+        while True:
+            try:
+                [color, number] = inp.split(",")
+                break
+            except ValueError:
+                print("Sorry, cannot read your input")
+                inp = _input("Correct card (enter if ok): ")
+        color, number = color.strip(), number.strip()
+        print(f"Corrected to {COLOR_MAP[color]} {NUMBER_MAP[number]}")
         return color, number
 
     def read_card(self, prompt: str) -> tuple:
