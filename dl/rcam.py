@@ -66,10 +66,10 @@ class RCamDataloader:
             _input("Hold the card in front of camera and press enter...")
             os.system(f"raspistill -t 10000 -o {tempfile.gettempdir()}/uno-player-card.jpeg -w 224 -h 224")
             image = Image.open(f"{tempfile.gettempdir()}/uno-player-card.jpeg").resize((224, 224))
-            set_input_tensor(ci, image)
+            set_input_tensor(self.ci, image)
             c = COLORS[classify(self.ci, image, COLORS)]
-            set_input_tensor(ni, image)
-            n = COLORS[classify(self.ni, image, NUMBERS)]
+            set_input_tensor(self.ni, image)
+            n = NUMBERS[classify(self.ni, image, NUMBERS)]
             if card_valid(c, n):
                 break
             print("There was an error while trying to detect card, please try again.\n")
