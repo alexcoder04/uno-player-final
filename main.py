@@ -3,13 +3,10 @@
 # Copyright (c) 2021-2023 alexcoder04 <https://github.com/alexcoder04>
 # Copyright (c) 2021-2022 nilswgnr <https://github.com/nilswgnr>
 #
-# NOTE: minimal python version: 3.10
-#
 # a script that can play the Uno card game
 #
 
 from db import SqliteDatabase
-from dl import CmdLineDataloader, CameraDataloader, RCamDataloader
 import argh
 import random
 
@@ -148,21 +145,22 @@ def die(msg="An error occured"):
 @argh.arg("--dl", "-l", help="select dataloader ('cmdline', 'camera', 'rcam)")
 @argh.arg("--dev-mode", "-d", help="whether to start in dev mode")
 def run(db="sql", dl="camera", dev_mode=False):
-    match db:
-        case "sql":
-            database = SqliteDatabase
-        case _:
-            die("Invalid databse selected. Available: 'sql'")
+    if db == "sql":
+        database = SqliteDatabase
+    else:
+        die("Invalid databse selected. Available: 'sql'")
 
-    match dl:
-        case "cmdline":
-            dataloader = CmdLineDataloader
-        case "camera":
-            dataloader = CameraDataloader
-        case "rcam":
-            dataloader = RCamDataloader
-        case _:
-            die("Invalid dataloader selected. Available: 'cmdline', 'camera'")
+    if dl == "cmdline":
+        from dl import CmdLineDataloader
+        dataloader = CmdLineDataloader
+    elif dl == "camera":
+        from dl import CameraDataloader
+        dataloader = CameraDataloader
+    elif dl == "rcam":
+        from dl import RCamDataloader
+        dataloader = RCamDataloader
+    else:
+        die("Invalid dataloader selected. Available: 'cmdline', 'camera'")
 
     player = UnoPlayer(database, dataloader, dev_mode)
     try:
