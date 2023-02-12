@@ -91,7 +91,7 @@ class CameraDataloader:
             if color not in ("r", "g", "b", "y", "j"):
                 print("Sorry, invalid color, use (r,g,b,y,j)")
                 continue
-            if color != "s" and number not in (
+            if color != "j" and number not in (
                 "0",
                 "1",
                 "2",
@@ -110,12 +110,7 @@ class CameraDataloader:
             ):
                 print("Sorry, invalid number, use (0,1,2,3,4,5,6,7,8,9,r,n,+2,j,+4)")
                 continue
-            # if color == "j" and number not in ("j","+4"):
-            #    print("Sorry, invalid number, use (j,+4)")
-            #    continue
-            if color == "j":
-                color = "s"
-            special = True if color == "s" else False
+            special = True if color == "j" else False
             return color, number, special
 
     def get_how_many_to_pull(self) -> int:

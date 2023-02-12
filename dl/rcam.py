@@ -90,15 +90,13 @@ class RCamDataloader:
                 break
             print("There was an error while trying to detect card, please try again.\n")
         if not correct:
-            return c if c != "j" else "s", n, c == "j"
+            return c, n, c == "j"
         while True:
             color, number = self._correct(c, n)
             if not card_valid(color, number):
                 print("Sorry, invalid combination of color and number. Try again.")
                 continue
-            if color == "j":
-                color = "s"
-            special = True if color == "s" else False
+            special = True if color == "j" else False
             return color, number, special
     
     def clear(self) -> None:

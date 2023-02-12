@@ -22,10 +22,10 @@ class CmdLineDataloader:
                 print("Sorry, cannot read your input")
                 continue
             color, number = color.strip(), number.strip()
-            if color not in ("r", "g", "b", "y", "s"):
+            if color not in ("r", "g", "b", "y", "j"):
                 print("Sorry, invalid color, use (r,g,b,y,s)")
                 continue
-            if color != "s" and number not in (
+            if color != "j" and number not in (
                 "0",
                 "1",
                 "2",
@@ -43,10 +43,10 @@ class CmdLineDataloader:
             ):
                 print("Sorry, invalid number, use(0,1,2,3,4,5,6,7,8,9,r,n,+2,j)")
                 continue
-            if color == "s" and number not in ("j", "+4"):
+            if color == "j" and number not in ("j", "+4"):
                 print("Sorry, invalid number, use (j,+4)")
                 continue
-            special = True if color == "s" else False
+            special = True if color == "j" else False
             return color, number, special
 
     def get_how_many_to_pull(self) -> int:
