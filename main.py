@@ -9,7 +9,7 @@
 #
 
 from db import SqliteDatabase
-from dl import CmdLineDataloader, CameraDataloader
+from dl import CmdLineDataloader, CameraDataloader, RCamDataloader
 import argh
 import random
 
@@ -145,7 +145,7 @@ def die(msg="An error occured"):
 
 
 @argh.arg("--db", "-b", help="select database ('sql')")
-@argh.arg("--dl", "-l", help="select dataloader ('cmdline', 'camera')")
+@argh.arg("--dl", "-l", help="select dataloader ('cmdline', 'camera', 'rcam)")
 @argh.arg("--dev-mode", "-d", help="whether to start in dev mode")
 def run(db="sql", dl="camera", dev_mode=False):
     match db:
@@ -159,6 +159,8 @@ def run(db="sql", dl="camera", dev_mode=False):
             dataloader = CmdLineDataloader
         case "camera":
             dataloader = CameraDataloader
+        case "rcam":
+            dataloader = RCamDataloader
         case _:
             die("Invalid dataloader selected. Available: 'cmdline', 'camera'")
 
