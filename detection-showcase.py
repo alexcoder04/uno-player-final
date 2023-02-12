@@ -7,5 +7,5 @@ dataloader = RCamDataloader()
 print("CARD DETECTION SHOWCASE")
 
 while True:
-    (c, n) = dataloader.read_card("")
+    (c, n, _) = dataloader.read_card("", correct=False)
     print(f"Detected {COLOR_MAP[c]} {NUMBER_MAP[n]}!")

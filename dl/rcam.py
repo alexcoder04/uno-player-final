@@ -75,7 +75,7 @@ class RCamDataloader:
         print(f"Corrected to {COLOR_MAP[color]} {NUMBER_MAP[number]}")
         return color, number
 
-    def read_card(self, prompt: str) -> tuple:
+    def read_card(self, prompt: str, correct: bool = True) -> tuple:
         print(prompt)
         valid = False
         while not valid:
@@ -89,6 +89,8 @@ class RCamDataloader:
             if card_valid(c, n):
                 break
             print("There was an error while trying to detect card, please try again.\n")
+        if not correct:
+            return c if c != "j" else "s", n, c == "j"
         while True:
             color, number = self._correct(c, n)
             if not card_valid(color, number):
