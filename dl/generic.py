@@ -1,4 +1,6 @@
 
+import os
+
 COLOR_MAP = {
     "r": "red",
     "g": "green",
@@ -46,3 +48,16 @@ def card_valid(color: str, number: str) -> bool:
     if color in ("r", "g", "b", "y") and number in ("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "r", "n", "+2"):
         return True
     return False
+
+
+def clear() -> None:
+    if not self.DEV_MODE:
+        _input("Press <enter> to clear the screen and continue")
+        os.system("clear")
+
+
+def get_how_many_to_pull() -> int:
+    try:
+        return int(input("Do I have to pull? If so, how much: "))
+    except (ValueError, EOFError):
+        return 0

@@ -9,7 +9,7 @@ import requests
 import tempfile
 import tensorflow as tf
 
-from .generic import get_players_number, _input, COLOR_MAP, NUMBER_MAP
+from .generic import get_players_number, _input, clear, get_how_many_to_pull, COLOR_MAP, NUMBER_MAP
 
 
 class CameraDataloader:
@@ -119,15 +119,10 @@ class CameraDataloader:
             return color, number, special
 
     def get_how_many_to_pull(self) -> int:
-        try:
-            return int(input("Do I have to pull? If so, how much: "))
-        except (ValueError, EOFError):
-            return 0
+        return get_how_many_to_pull()
 
     def clear(self) -> None:
-        if not self.DEV_MODE:
-            _input("Press <enter> to clear the screen and continue")
-            os.system("clear")
+        clear()
 
     @staticmethod
     def get_max(val):

@@ -8,7 +8,7 @@ from PIL import Image
 import numpy as np
 import os
 
-from .generic import _input, card_valid, get_players_number, COLOR_MAP, NUMBER_MAP
+from .generic import _input, card_valid, clear, get_players_number, get_how_many_to_pull, COLOR_MAP, NUMBER_MAP
 
 
 COLORS = ["b", "g", "j", "r", "y"]
@@ -98,3 +98,9 @@ class RCamDataloader:
                 color = "s"
             special = True if color == "s" else False
             return color, number, special
+    
+    def clear(self) -> None:
+        clear()
+    
+    def get_how_many_to_pull(self) -> int:
+        return get_how_many_to_pull()
