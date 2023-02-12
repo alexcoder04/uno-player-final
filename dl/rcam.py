@@ -100,7 +100,7 @@ class RCamDataloader:
             return color, number, special
     
     def clear(self) -> None:
-        clear()
+        clear(self.DEV_MODE)
     
     def get_how_many_to_pull(self) -> int:
         return get_how_many_to_pull()

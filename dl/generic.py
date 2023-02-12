@@ -50,8 +50,8 @@ def card_valid(color: str, number: str) -> bool:
     return False
 
 
-def clear() -> None:
-    if not self.DEV_MODE:
+def clear(dev_mode: bool = False) -> None:
+    if not dev_mode:
         _input("Press <enter> to clear the screen and continue")
         os.system("clear")
 

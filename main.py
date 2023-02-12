@@ -10,6 +10,8 @@ from db import SqliteDatabase
 import argh
 import random
 
+from dl import _input, COLOR_MAP, NUMBER_MAP
+
 
 CARDS_BEGIN = 7
 
@@ -58,13 +60,13 @@ class UnoPlayer:
     # put pulled card if it matches
     def handle_pull(self, curColor, curNumber):
         print("Well, I have to pull...")
-        color, number, special = self.dl.read_card("I pulled: ")
+        color, number, special = self.dl.read_card("Enter the card I pulled:")
         if special == 1:
-            self.say("put pulled card")
-            self.say(f"I want {self.best_color()}!")
+            self.say("I put pulled card")
+            self.say(f"I want {COLOR_MAP[self.best_color()]}!")
             return
         if color == curColor or number == curNumber:
-            self.say("put pulled card")
+            self.say("I put pulled card")
             return
         self.db.add_card(color, number, special)
         self.dl.clear()
@@ -82,16 +84,18 @@ class UnoPlayer:
                 self.end_game()
                 break
             if self.made_first_move:
-                print("Move ended")
+                print("Move ended\n")
+            else:
+                self.made_first_move = True
             if self.skip_pull is None:
                 pull = self.dl.get_how_many_to_pull()
                 if pull != 0:
                     for _ in range(pull):
-                        color, number, special = self.dl.read_card("pull card: ")
+                        color, number, special = self.dl.read_card("Enter the card I pulled:")
                         self.db.add_card(color, number, special)
                     self.dl.clear()
                     continue
-                curColor, curNumber, _ = self.dl.read_card("card on stack: ")
+                curColor, curNumber, _ = self.dl.read_card("Enter the card on stack:")
             else:
                 (curColor, curNumber) = self.skip_pull
                 self.skip_pull = None
@@ -106,8 +110,8 @@ class UnoPlayer:
                 if len(res) == 1:
                     (card_id, color, number, special) = res[0]
                     self.db.delete_card_by_id(card_id)
-                    self.say(f"Put {color} {number}")
-                    self.say(f"I want {self.best_color()}!")
+                    self.say(f"I Put {COLOR_MAP[color]} {NUMBER_MAP[number]}")
+                    self.say(f"I want {COLOR_MAP[self.best_color()]}!")
                     if number == "+4" and self.players_number == 2:
                         self.skip_pull = (self.best_color(), number)
                     continue
@@ -121,12 +125,12 @@ class UnoPlayer:
                 else:
                     (card_id, color, number, special) = random.choice(jokers)
                 self.db.delete_card_by_id(card_id)
-                self.say(f"put {color} {number}")
-                self.say(f"I want {best_color}!")
+                self.say(f"I Put {COLOR_MAP[color]} {NUMBER_MAP[number]}")
+                self.say(f"I want {COLOR_MAP[best_color]}!")
                 continue
             (card_id, color, number, special) = random.choice(possible)
             self.db.delete_card_by_id(card_id)
-            self.say(f"Put {color} {number}")
+            self.say(f"I Put {COLOR_MAP[color]} {NUMBER_MAP[number]}")
             if number in ("+2", "n", "r") and self.players_number == 2:
                 self.skip_pull = (color, number)
 

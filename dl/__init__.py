@@ -1,6 +1,6 @@
 
 from .cmdline import CmdLineDataloader
-from .generic import COLOR_MAP, NUMBER_MAP
+from .generic import _input, COLOR_MAP, NUMBER_MAP
 
 # importing tensorflow will fail on the raspberry pi
 try:

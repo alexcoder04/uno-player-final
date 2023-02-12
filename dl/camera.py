@@ -122,7 +122,7 @@ class CameraDataloader:
         return get_how_many_to_pull()
 
     def clear(self) -> None:
-        clear()
+        clear(self.DEV_MODE)
 
     @staticmethod
     def get_max(val):
