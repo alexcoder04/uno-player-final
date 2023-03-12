@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
-from dl import RCamDataloader, COLOR_MAP, NUMBER_MAP
+from dl import RCam2Dataloader, COLOR_MAP, NUMBER_MAP
 
-dataloader = RCamDataloader()
+dataloader = RCam2Dataloader()
 
 print("CARD DETECTION SHOWCASE")
 

@@ -12,3 +12,5 @@ except ModuleNotFoundError:
     print("Otherwise make sure that Tensorflow is installed correctly.\n")
 
 from .rcam import RCamDataloader
+from .rcam2 import RCam2Dataloader
+

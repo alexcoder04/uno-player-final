@@ -146,7 +146,7 @@ def die(msg="An error occured"):
 
 
 @argh.arg("--db", "-b", help="select database ('sql')")
-@argh.arg("--dl", "-l", help="select dataloader ('cmdline', 'camera', 'rcam)")
+@argh.arg("--dl", "-l", help="select dataloader ('cmdline', 'camera', 'rcam', 'rcam2')")
 @argh.arg("--dev-mode", "-d", help="whether to start in dev mode")
 def run(db="sql", dl="camera", dev_mode=False):
     if db == "sql":
@@ -163,8 +163,11 @@ def run(db="sql", dl="camera", dev_mode=False):
     elif dl == "rcam":
         from dl import RCamDataloader
         dataloader = RCamDataloader
+    elif dl == "rcam2":
+        from dl import RCam2Dataloader
+        dataloader = RCam2Dataloader
     else:
-        die("Invalid dataloader selected. Available: 'cmdline', 'camera'")
+        die("Invalid dataloader selected. Available: 'cmdline', 'camera', 'rcam', 'rcam2'")
 
     player = UnoPlayer(database, dataloader, dev_mode)
     try:
@@ -175,3 +178,4 @@ def run(db="sql", dl="camera", dev_mode=False):
 
 if __name__ == "__main__":
     argh.dispatch_command(run)
+
